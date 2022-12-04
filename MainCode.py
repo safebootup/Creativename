@@ -5,6 +5,12 @@ Window.title("CreativeName")
 Window.configure(width=1000, height=600, bg = "lightgray")
 window.mainloop()
 """
+def refresh(P1state, P2state):
+        screen.blit(pygame.image.load((P1state)), (x,y))
+        screen.blit(Fighter2, (1150, 237))
+        pygame.draw.rect(screen, "GREEN", Health1)
+        pygame.draw.rect(screen, "GREEN", Health2)
+    
 import pygame, sys
 import Attacks
 #Display
@@ -26,6 +32,7 @@ clock = pygame.time.Clock()
 hitstun = 500
 inf = True
 Lockout = False
+JLock = False
 Crouching = False
 Attack = Attacks
 dmg = False
@@ -63,25 +70,37 @@ while run:
     #rectangle.centery = rectangle.centery % screen.get_height()
 
 
-    if keys[pygame.K_a] and x > 0 and Lockout == False:
+    if keys[pygame.K_a] and x > 0 and Lockout == False and JLock == False:
         x -= 5
         if keys[pygame.K_c]:
             Attack.Atk("Left",x,y,Fighter2, 1150, 237)
             
         
-    if keys[pygame.K_d] and x< 1500 - width and Lockout == False:
+    if keys[pygame.K_d] and x< 1500 - width and Lockout == False and JLock == False:
         x += 5
         if keys[pygame.K_c]:
-            Attack.Atk("Right",x,y,Fighter2, 1150, 237)        
+            Attack.Atk("Right",x,y,Fighter2, 1150, 237)
+
+            
     if keys[pygame.K_w] and y > 0 and Lockout == False:
         #y -= 5 Disabled for jumping code
         #Jumping is locked
-        pass 
-    if keys[pygame.K_s] and y<800-height:
+        refresh("3.png", 78)
+        JLock = True
+        jump = True
+        pygame.display.flip()
+    else:
+        JLock = False
+        jump = False
+        
+    if keys[pygame.K_s] and y<800-height and JLock == False:
         #y += 5 He shouldn't go down beyond this y coord
         #instead show image of your character crouching
-        screen.blit(pygame.image.load(("2.png")), (x,y))
-        screen.blit(Fighter2, (1150, 237))
+        refresh("2.png", Fighter2)
+        #screen.blit(pygame.image.load(("2.png")), (x,y))
+        #screen.blit(Fighter2, (1150, 237))
+        #pygame.draw.rect(screen, "GREEN", Health1)
+        #pygame.draw.rect(screen, "GREEN", Health2)
         Lockout = True
         Crouching = True
         #pygame.time.delay(100)
@@ -103,11 +122,12 @@ while run:
           
     #screen.fill("BLACK")
     screen.blit(Stage, (0,0))
-    if Crouching == False:
-        screen.blit(Fighter1, (x,y))
-        screen.blit(Fighter2, (1150, 237))
-        pygame.draw.rect(screen, "GREEN", Health1)
-        pygame.draw.rect(screen, "GREEN", Health2)
+    if Crouching == False and jump == False  :
+        refresh("1.png", Fighter2)
+        #screen.blit(Fighter1, (x,y))
+        #screen.blit(Fighter2, (1150, 237))
+        #pygame.draw.rect(screen, "GREEN", Health1)
+        #pygame.draw.rect(screen, "GREEN", Health2)
         #pygame.draw.rect(screen, "BLUE", (x,y, width, height))
         #pygame.draw.rect(screen, (255, 0, 0), rectangle)
         #pygame.display.update()
