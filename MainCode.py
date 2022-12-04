@@ -29,6 +29,8 @@ Lockout = False
 Crouching = False
 Attack = Attacks
 dmg = False
+Health1 = pygame.Rect(0,0,500,40)
+Health2 = pygame.Rect(1000,0,500,40)
 #Testing
 #Characters should be made on a 330 x 330 canvas center at 165
 #rectangle= pygame.Rect(x,y,width,height)
@@ -61,21 +63,21 @@ while run:
     #rectangle.centery = rectangle.centery % screen.get_height()
 
 
-    if keys[pygame.K_LEFT] and x > 0 and Lockout == False:
+    if keys[pygame.K_a] and x > 0 and Lockout == False:
         x -= 5
         if keys[pygame.K_c]:
             Attack.Atk("Left",x,y,Fighter2, 1150, 237)
             
         
-    if keys[pygame.K_RIGHT] and x< 1500 - width and Lockout == False:
+    if keys[pygame.K_d] and x< 1500 - width and Lockout == False:
         x += 5
         if keys[pygame.K_c]:
             Attack.Atk("Right",x,y,Fighter2, 1150, 237)        
-    if keys[pygame.K_UP] and y > 0 and Lockout == False:
+    if keys[pygame.K_w] and y > 0 and Lockout == False:
         #y -= 5 Disabled for jumping code
         #Jumping is locked
         pass 
-    if keys[pygame.K_DOWN] and y<800-height:
+    if keys[pygame.K_s] and y<800-height:
         #y += 5 He shouldn't go down beyond this y coord
         #instead show image of your character crouching
         screen.blit(pygame.image.load(("2.png")), (x,y))
@@ -90,6 +92,7 @@ while run:
             if dmg == True:
                 pass
                 
+                
     else:
         Lockout = False
         Crouching = False
@@ -103,6 +106,8 @@ while run:
     if Crouching == False:
         screen.blit(Fighter1, (x,y))
         screen.blit(Fighter2, (1150, 237))
+        pygame.draw.rect(screen, "GREEN", Health1)
+        pygame.draw.rect(screen, "GREEN", Health2)
         #pygame.draw.rect(screen, "BLUE", (x,y, width, height))
         #pygame.draw.rect(screen, (255, 0, 0), rectangle)
         #pygame.display.update()
