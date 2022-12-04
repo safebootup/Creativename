@@ -6,6 +6,7 @@ Window.configure(width=1000, height=600, bg = "lightgray")
 window.mainloop()
 """
 import pygame, sys
+import Attacks
 #Display
 background_color = ("BLUE")
 screen = pygame.display.set_mode((1500, 800))
@@ -25,13 +26,18 @@ clock = pygame.time.Clock()
 hitstun = 500
 inf = True
 Lockout = False
+Crouching = False
+Attack = Attacks
+dmg = False
 #Testing
-#Characters should be made on a 330 x 330 canvas
+#Characters should be made on a 330 x 330 canvas center at 165
 #rectangle= pygame.Rect(x,y,width,height)
-rectangle= pygame.Rect(0,400,40,40)
+#rectangle= pygame.Rect(1150,330,40,40)
 Fighter1 = pygame.image.load("1.png")
 Stage = pygame.image.load("Stage.png")
 Fighter1 = pygame.Surface.convert_alpha(Fighter1)
+Fighter2 = pygame.image.load("2.png")
+Fighter2 = pygame.Surface.convert_alpha(Fighter2)
 
 #rectangle= pygame.Rect(500,300,200,300)
 #                       x  y     width  height
@@ -54,34 +60,51 @@ while run:
     #rectangle.centerx = rectangle.centerx % screen.get_width()
     #rectangle.centery = rectangle.centery % screen.get_height()
 
-        
+
     if keys[pygame.K_LEFT] and x > 0 and Lockout == False:
         x -= 5
+        if keys[pygame.K_c]:
+            Attack.Atk("Left",x,y,Fighter2, 1150, 237)
+            
         
     if keys[pygame.K_RIGHT] and x< 1500 - width and Lockout == False:
         x += 5
+        if keys[pygame.K_c]:
+            Attack.Atk("Right",x,y,Fighter2, 1150, 237)        
     if keys[pygame.K_UP] and y > 0 and Lockout == False:
         #y -= 5 Disabled for jumping code
         #Jumping is locked
-        pass
-    if keys[pygame.K_DOWN] and y<800-height and Lockout == False:
+        pass 
+    if keys[pygame.K_DOWN] and y<800-height:
         #y += 5 He shouldn't go down beyond this y coord
         #instead show image of your character crouching
         screen.blit(pygame.image.load(("2.png")), (x,y))
+        screen.blit(Fighter2, (1150, 237))
         Lockout = True
-        pygame.time.delay(100)
-        Lockout = False
+        Crouching = True
+        #pygame.time.delay(100)
+        #Lockout = False
         pygame.display.flip()
+        if keys[pygame.K_c]:
+            dmg = Attack.Atk("Down", x, y,Fighter2, 1150, 237)
+            if dmg == True:
+                pass
+                
+    else:
+        Lockout = False
+        Crouching = False
 
-        
+    dmg = False
 
         #inf = True
           
     #screen.fill("BLACK")
     screen.blit(Stage, (0,0))
-    screen.blit(Fighter1, (x,y))
+    if Crouching == False:
+        screen.blit(Fighter1, (x,y))
+        screen.blit(Fighter2, (1150, 237))
         #pygame.draw.rect(screen, "BLUE", (x,y, width, height))
-    #pygame.draw.rect(screen, (255, 0, 0), rectangle)
+        #pygame.draw.rect(screen, (255, 0, 0), rectangle)
         #pygame.display.update()
-    pygame.display.flip()
+        pygame.display.flip()
             
