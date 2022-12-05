@@ -114,7 +114,7 @@ while run:
         #refresh("P1Walk.png","P2Idle.png")
 
             
-    if keys[pygame.K_w] and y > 0 and Lockout == False:
+    if keys[pygame.K_w] and y > 5 and Lockout == False:
         #y -= 5 Disabled for jumping code
         #Jumping is locked
         for i in range(10):
